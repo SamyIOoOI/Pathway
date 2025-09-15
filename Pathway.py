@@ -14,6 +14,8 @@ community_list = {}
 studies_list = {}
 current_date = ""
 current_task = ""
+checker = ''
+variation_n = ''
 ## Function
 def update_listbox_schedule():
     listbox.delete(0, tk.END)
@@ -38,22 +40,48 @@ def insert_task():
     global current_task
     current_task = task_entry.get()
 def confirm_entry():
-    global current_date, current_task, sched_list
+    global current_date, current_task, sched_list, chore_list, community_list, studies_list
     if current_date and current_task:
         key = str(current_date)
-        if key in sched_list:
-            counter = 1
-            while f"{key}_{counter}" in sched_list:
-                counter += 1
-            key = f"{key}_{counter}"
-        sched_list[key] = current_task
-        if
+        if variation_n == "Schedule.json":
+            if key in sched_list:
+                counter = 1
+                while f"{key}_{counter}" in sched_list:
+                    counter += 1
+                key = f"{key}_{counter}"
+            sched_list[key] = current_task
+            update_listbox_schedule()
+        elif variation_n == "Chores.json":
+            if key in chore_list:
+                counter = 1
+                while f"{key}_{counter}" in chore_list:
+                    counter += 1
+                key = f"{key}_{counter}"
+            chore_list[key] = current_task
+            update_listbox_chores()
+        elif variation_n == "Community.json":
+            if key in community_list:
+                counter = 1
+                while f"{key}_{counter}" in community_list:
+                    counter += 1
+                key = f"{key}_{counter}"
+            community_list[key] = current_task
+            update_listbox_community()
+        elif variation_n == "Studies.json":
+            if key in studies_list:
+                counter = 1
+                while f"{key}_{counter}" in studies_list:
+                    counter += 1
+                key = f"{key}_{counter}"
+            studies_list[key] = current_task
+            update_listbox_studies()
         current_date = ""
         current_task = ""
         task_entry.delete(0, tk.END)
-def save_task(variation):
-    with open(variation, 'w') as f:
-        json.dump(sched_list, f)
+def save_task(variation_n, dump_list):
+    with open(variation_n, 'w') as f:
+        json.dump(dump_list, f)
+    tk.messagebox.showinfo("Tasks Saved", "The tasks have been saved successfully!")
 ## GUI Functions
 def close_all_windows():
     for window in gui.winfo_children():
@@ -61,8 +89,8 @@ def close_all_windows():
             window.destroy()
 def sched_button():
     close_all_windows()
-    global listbox, date_entry, task_entry
-    variation = "schedule.json"
+    global listbox, date_entry, task_entry, variation_n
+    variation_n = "Schedule.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
     top.title("Scheduler")
@@ -77,7 +105,7 @@ def sched_button():
     task_btn.place(x='180', y='49')
     confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
     confirm_btn.place(x='260', y='11')
-    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation_n=variation_n, dump_list=sched_list), width=6, height=1, bg='pink')
     save_btn.place(x='260', y='49')
     listbox = tk.Listbox(top)
     listbox.config(height=10, width=40)
@@ -85,8 +113,8 @@ def sched_button():
     update_listbox_schedule()
 def chores_button():
     close_all_windows()
-    variation = "Chores.json"
-    global listbox, date_entry, task_entry
+    global listbox, date_entry, task_entry, variation_n
+    variation_n = "Chores.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
     top.title("Household Chores")
@@ -101,7 +129,7 @@ def chores_button():
     task_btn.place(x='180', y='49')
     confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
     confirm_btn.place(x='260', y='11')
-    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation_n=variation_n, dump_list=chore_list), width=6, height=1, bg='pink')
     save_btn.place(x='260', y='49')
     listbox = tk.Listbox(top)
     listbox.config(height=10, width=40)
@@ -109,8 +137,8 @@ def chores_button():
     update_listbox_chores()
 def community_button():
     close_all_windows()
-    global listbox, date_entry, task_entry
-    variation = "Community.json"
+    global listbox, date_entry, task_entry, variation_n
+    variation_n = "Community.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
     top.title("Community Service")
@@ -125,7 +153,7 @@ def community_button():
     task_btn.place(x='180', y='49')
     confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
     confirm_btn.place(x='260', y='11')
-    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation_n=variation_n, dump_list=community_list), width=6, height=1, bg='pink')
     save_btn.place(x='260', y='49')
     listbox = tk.Listbox(top)
     listbox.config(height=10, width=40)
@@ -133,8 +161,8 @@ def community_button():
     update_listbox_community()
 def studies_button():
     close_all_windows()
-    variation = "Studies.json"
-    global listbox, date_entry, task_entry
+    global listbox, date_entry, task_entry, variation_n
+    variation_n = "Studies.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
     top.title("Career & Studies")
@@ -149,7 +177,7 @@ def studies_button():
     task_btn.place(x='180', y='49')
     confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
     confirm_btn.place(x='260', y='11')
-    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation_n=variation_n, dump_list=studies_list), width=6, height=1, bg='pink')
     save_btn.place(x='260', y='49')
     listbox = tk.Listbox(top)
     listbox.config(height=10, width=40)
@@ -176,5 +204,5 @@ scheduler.place(x='60', y='180')
 studies.place(x='165', y='225')
 community.place(x='180', y='180')
 chores.place(x='360', y='180')
-tk.messagebox.showinfo("Pathway", "Welcome to pathway! Your personal project organizer!")
+tk.messagebox.showinfo("Pathway", "Welcome to pathway! My personal organizer!")
 gui.mainloop()
