@@ -1,7 +1,9 @@
 import tkinter as tk
 from logging import exception
-from tkinter import filedialog as fd, image_types
+from tkinter import filedialog as fd, image_types, ttk
 from tkinter import Radiobutton, Button, messagebox, PhotoImage
+from tkinter.ttk import Progressbar
+
 from tkinterdnd2 import DND_FILES, TkinterDnD
 import json
 import os
