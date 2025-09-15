@@ -6,27 +6,47 @@ from tkinter.ttk import Progressbar
 from tkinterdnd2 import DND_FILES, TkinterDnD
 import json
 import os
-## Functions
+## Global Variables
+sched_list = {}
+chore_list = {}
+community_list = {}
+studies_list = {}
+## Function
 def schedule():
     print("hey")
+def test():
+    global sched_list
+    sched_list["test"] = "test"
+    update_listbox()
+def update_listbox():
+    listbox_sched.delete(0, tk.END)
+    for key, value in sched_list.items():
+        listbox_sched.insert(tk.END, f"{key}: {value}")
 ## GUI Functions
 def sched_button():
-    top = Toplevel(gui)
+    global listbox_sched
+    top = Toplevel(gui, bg='PeachPuff')
     top.geometry("300x250")
     top.title("Scheduler")
     top.resizable(False, False)
+    listbox_sched = tk.Listbox(top)
+    listbox_sched.config(height=10, width=20)
+    listbox_sched.place(x='11', y='22')
+    update_listbox()
+    test_btn = tk.Button(top, text='test', command=test)
+    test_btn.pack()
 def chores_button():
-    top = Toplevel(gui)
+    top = Toplevel(gui, bg='PeachPuff')
     top.geometry("300x250")
     top.title("Household Chores")
     top.resizable(False, False)
 def community_button():
-    top = Toplevel(gui)
+    top = Toplevel(gui, bg='PeachPuff')
     top.geometry("300x250")
     top.title("Community Service")
     top.resizable(False, False)
 def studies_button():
-    top = Toplevel(gui)
+    top = Toplevel(gui, bg='PeachPuff')
     top.geometry("300x250")
     top.title("Career & Studies")
     top.resizable(False, False)
