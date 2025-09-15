@@ -15,12 +15,22 @@ studies_list = {}
 current_date = ""
 current_task = ""
 ## Function
-def schedule():
-    print("hey")
-def update_listbox():
-    listbox_sched.delete(0, tk.END)
+def update_listbox_schedule():
+    listbox.delete(0, tk.END)
     for key, value in sched_list.items():
-        listbox_sched.insert(tk.END, f"{key}: {value}")
+        listbox.insert(tk.END, f"{key}: {value}")
+def update_listbox_chores():
+    listbox.delete(0, tk.END)
+    for key, value in chore_list.items():
+        listbox.insert(tk.END, f"{key}: {value}")
+def update_listbox_community():
+    listbox.delete(0, tk.END)
+    for key, value in community_list.items():
+        listbox.insert(tk.END, f"{key}: {value}")
+def update_listbox_studies():
+    listbox.delete(0, tk.END)
+    for key, value in studies_list.items():
+        listbox.insert(tk.END, f"{key}: {value}")
 def insert_date():
     global current_date
     current_date = date_entry.get_date()
@@ -37,52 +47,115 @@ def confirm_entry():
                 counter += 1
             key = f"{key}_{counter}"
         sched_list[key] = current_task
-        update_listbox()
+        if
         current_date = ""
         current_task = ""
         task_entry.delete(0, tk.END)
-def save_schedule():
-    with open('schedule.json', 'w') as f:
+def save_task(variation):
+    with open(variation, 'w') as f:
         json.dump(sched_list, f)
 ## GUI Functions
+def close_all_windows():
+    for window in gui.winfo_children():
+        if isinstance(window, Toplevel):
+            window.destroy()
 def sched_button():
-    global listbox_sched, date_entry, task_entry
+    close_all_windows()
+    global listbox, date_entry, task_entry
+    variation = "schedule.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
     top.title("Scheduler")
     top.resizable(False, False)
     date_entry = DateEntry(top)
     date_entry.place(x='11', y='22')
-    task_entry = tk.Entry(top, width=20)
-    task_entry.place(x='11', y='52')
-    date_btn = tk.Button(top, text='Insert Date', command=insert_date)
-    date_btn.place(x='180', y='22')
-    task_btn = tk.Button(top, text='Insert Task', command=insert_task)
-    task_btn.place(x='180', y='52')
-    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry)
-    confirm_btn.place(x='260', y='22')
-    save_btn = tk.Button(top, text='Save', command=save_schedule)
-    save_btn.place(x='260', y='52')
-    listbox_sched = tk.Listbox(top)
-    listbox_sched.config(height=10, width=40)
-    listbox_sched.place(x='11', y='82')
-    update_listbox()
+    task_entry = tk.Entry(top, width=20, bg='light pink')
+    task_entry.place(x='11', y='50')
+    date_btn = tk.Button(top, text='Insert Date', command=insert_date, width=6, height=1, bg='pink')
+    date_btn.place(x='180', y='11')
+    task_btn = tk.Button(top, text='Insert Task', command=insert_task, width=6, height=1, bg='pink')
+    task_btn.place(x='180', y='49')
+    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
+    confirm_btn.place(x='260', y='11')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn.place(x='260', y='49')
+    listbox = tk.Listbox(top)
+    listbox.config(height=10, width=40)
+    listbox.place(x='11', y='82')
+    update_listbox_schedule()
 def chores_button():
+    close_all_windows()
+    variation = "Chores.json"
+    global listbox, date_entry, task_entry
     top = Toplevel(gui, bg='PeachPuff')
-    top.geometry("300x250")
+    top.geometry("400x350")
     top.title("Household Chores")
     top.resizable(False, False)
+    date_entry = DateEntry(top)
+    date_entry.place(x='11', y='22')
+    task_entry = tk.Entry(top, width=20, bg='light pink')
+    task_entry.place(x='11', y='50')
+    date_btn = tk.Button(top, text='Insert Date', command=insert_date, width=6, height=1, bg='pink')
+    date_btn.place(x='180', y='11')
+    task_btn = tk.Button(top, text='Insert Task', command=insert_task, width=6, height=1, bg='pink')
+    task_btn.place(x='180', y='49')
+    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
+    confirm_btn.place(x='260', y='11')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn.place(x='260', y='49')
+    listbox = tk.Listbox(top)
+    listbox.config(height=10, width=40)
+    listbox.place(x='11', y='82')
+    update_listbox_chores()
 def community_button():
+    close_all_windows()
+    global listbox, date_entry, task_entry
+    variation = "Community.json"
     top = Toplevel(gui, bg='PeachPuff')
-    top.geometry("300x250")
+    top.geometry("400x350")
     top.title("Community Service")
     top.resizable(False, False)
+    date_entry = DateEntry(top)
+    date_entry.place(x='11', y='22')
+    task_entry = tk.Entry(top, width=20, bg='light pink')
+    task_entry.place(x='11', y='50')
+    date_btn = tk.Button(top, text='Insert Date', command=insert_date, width=6, height=1, bg='pink')
+    date_btn.place(x='180', y='11')
+    task_btn = tk.Button(top, text='Insert Task', command=insert_task, width=6, height=1, bg='pink')
+    task_btn.place(x='180', y='49')
+    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
+    confirm_btn.place(x='260', y='11')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn.place(x='260', y='49')
+    listbox = tk.Listbox(top)
+    listbox.config(height=10, width=40)
+    listbox.place(x='11', y='82')
+    update_listbox_community()
 def studies_button():
+    close_all_windows()
+    variation = "Studies.json"
+    global listbox, date_entry, task_entry
     top = Toplevel(gui, bg='PeachPuff')
-    top.geometry("300x250")
+    top.geometry("400x350")
     top.title("Career & Studies")
     top.resizable(False, False)
-## Below is the basic GUI
+    date_entry = DateEntry(top)
+    date_entry.place(x='11', y='22')
+    task_entry = tk.Entry(top, width=20, bg='light pink')
+    task_entry.place(x='11', y='50')
+    date_btn = tk.Button(top, text='Insert Date', command=insert_date, width=6, height=1, bg='pink')
+    date_btn.place(x='180', y='11')
+    task_btn = tk.Button(top, text='Insert Task', command=insert_task, width=6, height=1, bg='pink')
+    task_btn.place(x='180', y='49')
+    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=6, height=1, bg='pink')
+    confirm_btn.place(x='260', y='11')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation=variation), width=6, height=1, bg='pink')
+    save_btn.place(x='260', y='49')
+    listbox = tk.Listbox(top)
+    listbox.config(height=10, width=40)
+    listbox.place(x='11', y='82')
+    update_listbox_studies()
+## Basic GUI
 gui = TkinterDnD.Tk()
 gui.title("Pathway")
 gui.geometry("500x300")
