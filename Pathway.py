@@ -1,6 +1,6 @@
 import tkinter as tk
 from logging import exception
-from tkinter import filedialog as fd, image_types, ttk
+from tkinter import filedialog as fd, image_types, ttk, Toplevel
 from tkinter import Radiobutton, Button, messagebox, PhotoImage
 from tkinter.ttk import Progressbar
 
@@ -8,14 +8,26 @@ from tkinterdnd2 import DND_FILES, TkinterDnD
 import json
 import os
 ## Functions
+def schedule():
+    print("hey")
+## GUI Functions
 def sched_button():
-    print("Hello World!")
+    top = Toplevel(gui)
+    top.geometry("300x250")
+    top.title("Scheduler")
+    schedule()
 def chores_button():
-    print("Hello World!")
+    top = Toplevel(gui)
+    top.geometry("300x250")
+    top.title("Household Chores")
 def community_button():
-    print("Hello World!")
+    top = Toplevel(gui)
+    top.geometry("300x250")
+    top.title("Community Service")
 def studies_button():
-    print("Hello World!")
+    top = Toplevel(gui)
+    top.geometry("300x250")
+    top.title("Career & Studies")
 ## Below is the basic GUI
 gui = TkinterDnD.Tk()
 gui.title("Pathway")
