@@ -13,6 +13,7 @@ sched_list = {}
 chore_list = {}
 community_list = {}
 studies_list = {}
+number_list = {}
 note_list = []
 current_date = ""
 current_task = ""
@@ -30,6 +31,10 @@ def update_listbox():
         listbox.insert(tk.END, f"{key}: {value}")
     for key, value in studies_list.items():
         listbox.insert(tk.END, f"{key}: {value}")
+    for key, value in number_list.items():
+        listbox.insert(tk.END, f"{key}:{value}")
+    for a in note_list:
+        listbox.insert(tk.END, f"{a}")
 def update_listbox_schedule():
     listbox.delete(0, tk.END)
     for key, value in sched_list.items():
@@ -46,16 +51,25 @@ def update_listbox_studies():
     listbox.delete(0, tk.END)
     for key, value in studies_list.items():
         listbox.insert(tk.END, f"{key}: {value}")
+def update_listbox_numbers():
+    listbox.delete(0, tk.END)
+    for key, value in number_list.items():
+        listbox.insert(tk.END, f"{key}:{value}")
 def insert_date():
     global current_date
     current_date = date_entry.get_date()
+def insert_number():
+    global current_number
+    current_number = number_entry.get()
 def insert_task():
     global current_task
     current_task = task_entry.get()
 def confirm_entry():
-    global current_date, current_task, sched_list, chore_list, community_list, studies_list
-    if current_date and current_task:
+    global current_date, current_task, sched_list, chore_list, community_list, studies_list, number_list, current_number
+    if current_date and current_task or current_number and current_task:
         key = str(current_date)
+        if current_number:
+            key = str(current_number)
         if variation_n == "Schedule.json":
             if key in sched_list:
                 counter = 1
@@ -88,15 +102,25 @@ def confirm_entry():
                 key = f"{key}_{counter}"
             studies_list[key] = current_task
             update_listbox_studies()
+        elif variation_n == "Numbers.json":
+            if key in number_list:
+                counter = 1
+                while f"{key}_{counter}" in number_list:
+                    counter += 1
+                key = f"{key}_{counter}"
+            number_list[key] = current_task
+            update_listbox_numbers()
         current_date = ""
         current_task = ""
+        current_number = ""
         task_entry.delete(0, tk.END)
+        number_entry.delete(0, tk.END)
 def save_task(variation_n, dump_list):
     with open(variation_n, 'w') as f:
         json.dump(dump_list, f)
     tk.messagebox.showinfo("Tasks Saved", "The tasks have been saved successfully!")
 def load_task(variation_n):
-    global sched_list, chore_list, community_list, studies_list, note_list
+    global sched_list, chore_list, community_list, studies_list, note_list, number_list
     if variation_n == "Schedule.json":
         if os.path.exists('Schedule.json'):
             with open('Schedule.json', 'r') as f:
@@ -133,13 +157,25 @@ def load_task(variation_n):
                 note_list = json.load(f)
             update_listbox_notes()
             tk.messagebox.showinfo("Success", "The notes have been loaded successfully!")
-        else:
-            tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
+    elif variation_n == "Numbers.json":
+        with open('Numbers.json', 'r') as f:
+            number_list = json.load(f)
+        update_listbox_numbers()
+        tk.messagebox.showinfo("Success", "The numbers have been loaded successfully!")
+    else:
+        tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
 ## GUI Functions
 def close_all_windows():
+    global sched_list, chore_list, community_list, studies_list, number_list, note_list
     for window in gui.winfo_children():
         if isinstance(window, Toplevel):
             window.destroy()
+    sched_list.clear()
+    chore_list.clear()
+    community_list.clear()
+    studies_list.clear()
+    number_list.clear()
+    note_list.clear()
 def sched_button():
     close_all_windows()
     global listbox, date_entry, task_entry, variation_n
@@ -260,6 +296,7 @@ def confirm_note():
         update_listbox_notes()
         current_task = ''
         task_entry.delete(0, tk.END)
+
 ## Detailed Recipes Start Here ##
 tomato_beans_recipe = {
     "Ingredients": [
@@ -401,7 +438,7 @@ def recipes():
     recipe_get_btn.place(x='150', y='230')
 def overview_btn():
     close_all_windows()
-    global listbox, sched_list, chore_list, community_list, studies_list
+    global listbox, sched_list, chore_list, community_list, studies_list, number_list, note_list
     top = Toplevel(gui, bg="PeachPuff")
     top.geometry("350x250")
     top.resizable(False, False)
@@ -421,6 +458,12 @@ def overview_btn():
     if os.path.exists('Studies.json'):
         with open('Studies.json', 'r') as y:
             studies_list = json.load(y)
+    if os.path.exists('Numbers.json'):
+        with open('Numbers.json', 'r') as m:
+            number_list = json.load(m)
+    if os.path.exists('Notes.json'):
+        with open('Notes.json', 'r') as o:
+            note_list = json.load(o)
     update_listbox()
     tk.messagebox.showinfo("Instructions", "Here you can see all your scheduled tasks in one place, if the save files are present.")
 def notes_btn():
@@ -430,7 +473,7 @@ def notes_btn():
     top = Toplevel(gui, bg="PeachPuff")
     top.geometry("350x250")
     top.resizable(False, False)
-    top.title("Overview")
+    top.title("Notes")
     task_entry = tk.Entry(top, width=40, bg='light pink')
     task_entry.place(x='11', y='48')
     task_btn = tk.Button(top, text='Insert', command=insert_task, width=3, height=1, bg='pink')
@@ -444,10 +487,44 @@ def notes_btn():
     listbox = tk.Listbox(top)
     listbox.config(height=8, width=40)
     listbox.place(x='11', y='78')
+    tk.messagebox.showinfo("Instructions", "Write your note in the entry box, then click insert and submit to add it to the listbox. Click save to save it for later, and load for loading save files.")
 def numbers_btn():
-    print("hey")
+    global current_task, task_entry, variation_n, listbox, number_list, number_entry, listbox
+    close_all_windows()
+    variation_n = "Numbers.json"
+    top = Toplevel(gui, bg="PeachPuff")
+    top.geometry("350x250")
+    top.resizable(False, False)
+    top.title("Numbers")
+    number_entry = tk.Entry(top, width=20, bg='light pink')
+    number_entry.insert(0, "Type Number Here")
+    number_entry.place(x='4', y='48')
+    task_entry = tk.Entry(top, width=20, bg='light pink')
+    task_entry.insert(0, "Type Note Here")
+    task_entry.place(x='180', y='48')
+    task_btn = tk.Button(top, text='Add Number', command=insert_number, width=8, height=1, bg='pink')
+    note_num_btn = tk.Button(top, text='Add Note', command=insert_task, width=5, height=1, bg='pink')
+    confirm_btn = tk.Button(top, text='Confirm', command=confirm_entry, width=4, height=1, bg='pink')
+    save_btn = tk.Button(top, text='Save', command=lambda: save_task(variation_n=variation_n, dump_list=number_list), width=2, height=1, bg='pink')
+    load_btn = tk.Button(top, text='Load', command=lambda: load_task(variation_n=variation_n), width=2, height=1, bg='pink')
+    note_num_btn.place(x='102', y='8')
+    save_btn.place(x='249', y='8')
+    load_btn.place(x='296', y='8')
+    task_btn.place(x='6', y='8')
+    confirm_btn.place(x='185', y='8')
+    listbox = tk.Listbox(top)
+    listbox.config(height=8, width=40)
+    listbox.place(x='11', y='78')
+    tk.messagebox.showinfo("Instructions", "Write your number and note in the entry boxes, then click add number, add note and confirm to add it to the listbox. Click save to save it for later, and load for loading save files.")
 def qod_btn():
-    print("hey")
+    close_all_windows()
+    variation_n = "Numbers.json"
+    top = Toplevel(gui, bg="PeachPuff")
+    top.geometry("350x250")
+    top.resizable(False, False)
+    top.title("Credits")
+    msg_label = tk.Label(top, image=credits_image, borderwidth='3', relief='solid')
+    msg_label.place(x='1', y='1')
 ## Basic GUI
 gui = TkinterDnD.Tk()
 gui.title("Pathway")
@@ -455,6 +532,7 @@ gui.geometry("500x300")
 gui.config(bg="PeachPuff")
 gui.resizable(False, False)
 recipe_image = PhotoImage(file='recipe.png')
+credits_image = PhotoImage(file='credits.png')
 image = PhotoImage(file='Pathway.png')
 msg_label = tk.Label(gui, image=image, borderwidth='3', relief='solid')
 msg_label.place(x='50', y='10')
@@ -466,7 +544,7 @@ recipes = tk.Button(text="Recipe Manager", command=recipes, bg='pink')
 overview = tk.Button(text="Overview", command=overview_btn, bg='maroon',fg='pink', height=1, width=5)
 notes = tk.Button(text="Notes", command=notes_btn, bg='maroon', fg='pink', height=1, width=2)
 number_saved = tk.Button(text="Calls", command=numbers_btn, bg='maroon', fg='pink', height=1, width=1)
-qod = tk.Button(text="QoD", command=qod_btn, bg='maroon', fg='pink', height=1, width=1)
+qod = tk.Button(text="☺", command=qod_btn, bg='maroon', fg='pink', height=1, width=1)
 scheduler.config(height=1, width=6)
 chores.config(height=1, width=6)
 community.config(height=1, width=14)
