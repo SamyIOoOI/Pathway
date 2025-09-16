@@ -262,6 +262,47 @@ eggs_recipe = {
         "Finish it with salt and black pepper. Enjoy."
     ]
 }
+fries_and_sauce_recipe = {
+    "Ingredients": [
+        "French fries",
+        "Tomatoes",
+        "Pepper",
+        "Cooking oil"
+    ],
+    "Instructions": [
+        "Prepare the french fries and put it aside, sprinkle some salt and black pepper",
+        "Prepare the sauce by pouring the cooking oil in a pot, then cutting the tomatoes and pepper into small pieces and cook till it has a golden yellow tint",
+        "pour the sauce on the fries. Enjoy."
+    ]
+}
+roasted_mashed_eggplant_recipe = {
+    "Ingredients": [
+        "Eggplant",
+        "Cooking oil",
+        "Tahini Sauce"
+    ],
+    "Instructions": [
+        "Put the eggplant on the stove and light the fire until it is completely roasted, it might smell bad and burnt but that is what we want.",
+        "Peel the burnt skin of the eggplant off and mash it in a bowl.",
+        "mix the mashed eggplant with oil, salt and tahini sauce. Enjoy"
+    ]
+}
+molokhia_recipe = {
+    "Ingredients": [
+        "Molokhia",
+        "Garlic",
+        "Cooking oil",
+        "Chicken Soup"
+    ],
+    "Instructions": [
+        "First, Wash the molokhia and let it dry in a clean place. Then cut it with a molokhia cutter until it is a smooth paste.",
+        "Secondly, cut some garlic and put it in a mashing bowl, add some salt and kozbara.",
+        "Thirdly, mash the garlic and spices in a mashing powl until it is fully crushed",
+        "Put the garlic in a pot with cooking oil and heat it until it has a strong smell."
+        "Heat up the chicken soup, then pour the garlic mix and then the molokhia and stir well. Let it cook for 10 minutes until it is solid green. Enjoy."
+
+    ]
+}
 ## Detailed Recipes End Here ##
 def get_recipe():
     recipe = opt.get()
@@ -281,10 +322,20 @@ def get_recipe():
         tk.messagebox.showinfo("Ingredients", f"{ingredients}")
         tk.messagebox.showinfo("Instructions", f"{instructions}")
     elif recipe == "Fries and Sauce":
+        ingredients = fries_and_sauce_recipe["Ingredients"]
+        instructions = fries_and_sauce_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
     elif recipe == "Roasted & Mashed Eggplant":
+        ingredients = roasted_mashed_eggplant_recipe["Ingredients"]
+        instructions = roasted_mashed_eggplant_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
     elif recipe == "Molokhia":
-    elif recipe == "Koshari":
-    elif recipe == "Seasoned Fried Eggplant":
+        ingredients = molokhia_recipe["Ingredients"]
+        instructions = molokhia_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
 def recipes():
     global opt
     close_all_windows()
