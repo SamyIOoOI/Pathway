@@ -249,6 +249,19 @@ onion_beans_recipe = {
         "6- Leave it on low heat for 5 minutes. Enjoy."
     ]
 }
+eggs_recipe = {
+    "Ingredients": [
+        "2-3 Eggs"
+        "Butter"
+        "Salt and Black Pepper"
+    ],
+    "Instructions": [
+        "Melt the butter in the pan.",
+        "Scramble your eggs with a spoon.",
+        "Pour the eggs and stir frequently.",
+        "Finish it with salt and black pepper. Enjoy."
+    ]
+}
 ## Detailed Recipes End Here ##
 def get_recipe():
     recipe = opt.get()
@@ -262,6 +275,16 @@ def get_recipe():
         instructions = onion_beans_recipe["Instructions"]
         tk.messagebox.showinfo("Ingredients", f"{ingredients}")
         tk.messagebox.showinfo("Instructions", f"{instructions}")
+    elif recipe == "Scrambled Eggs":
+        ingredients = eggs_recipe["Ingredients"]
+        instructions = eggs_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
+    elif recipe == "Fries and Sauce":
+    elif recipe == "Roasted & Mashed Eggplant":
+    elif recipe == "Molokhia":
+    elif recipe == "Koshari":
+    elif recipe == "Seasoned Fried Eggplant":
 def recipes():
     global opt
     close_all_windows()
@@ -271,7 +294,7 @@ def recipes():
     top.title("Recipe Manager")
     msg_label = tk.Label(top, image=recipe_image, borderwidth='3', relief='solid')
     msg_label.place(x='45', y='10')
-    recipe_names = ["Fool bi Ota (Tomato Beans)", "Fool bi Basal(Onion Beans)"]
+    recipe_names = ["Fool bi Ota (Tomato Beans)", "Fool bi Basal(Onion Beans)", "Scrambled Eggs", "Fries and Sauce", "Roasted & Mashed Eggplant", "Molokhia", "Koshari", "Seasoned Fried Eggplant"]
     opt = StringVar(value="Fool bi Ota (Tomato Beans)")
     recipe_drop = tk.OptionMenu(top, opt, *recipe_names)
     recipe_get_btn = tk.Button(top, text="Confirm", command=get_recipe, bg='pink', relief='solid')
