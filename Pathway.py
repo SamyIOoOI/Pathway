@@ -231,12 +231,35 @@ tomato_beans_recipe = {
         "6- Leave it on low heat for 5 minutes. Enjoy."
     ]
 }
+onion_beans_recipe = {
+    "Ingredients": [
+        "2 fresh medium-sized tomatoes",
+        "2-3 hot pepper (can be mixed with sweet pepper)",
+        "2 Medium-Sized Onions",
+        "Cooking oil",
+        "One can of fava beans"
+    ],
+    "Instructions": [
+        "1- Cut the tomatoes, Onion and pepper into small pieces with a kitchen knife, please use it safely." ,
+        "2- Pour cooking oil in any kind of steel or aluminum pot or dish and turn up the heat",
+        "3- Put the onion and stir it frequently until it is of golden color",
+        "After the onion is golden yellow, put the tomatoes and pepper you cutted before",
+        "4- When the ingredients start to have a golden or yellowish color, sprinkle some salt on it, other spices can also be used.",
+        "5- After sprinkling the salt, stir the mixture for a bit then put the fava beans in the put and stir well.",
+        "6- Leave it on low heat for 5 minutes. Enjoy."
+    ]
+}
 ## Detailed Recipes End Here ##
 def get_recipe():
     recipe = opt.get()
     if recipe == "Fool bi Ota (Tomato Beans)":
         ingredients = tomato_beans_recipe["Ingredients"]
         instructions = tomato_beans_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
+    elif recipe == "Fool bi Basal(Onion Beans)":
+        ingredients = onion_beans_recipe["Ingredients"]
+        instructions = onion_beans_recipe["Instructions"]
         tk.messagebox.showinfo("Ingredients", f"{ingredients}")
         tk.messagebox.showinfo("Instructions", f"{instructions}")
 def recipes():
