@@ -1,6 +1,7 @@
 import tkinter as tk
+from dis import Instruction
 from logging import exception
-from tkinter import filedialog as fd, image_types, ttk, Toplevel
+from tkinter import filedialog as fd, image_types, ttk, Toplevel, StringVar
 from tkinter import Radiobutton, Button, messagebox, PhotoImage
 from tkcalendar import Calendar, DateEntry
 from tkinter.ttk import Progressbar
@@ -213,14 +214,54 @@ def studies_button():
     listbox.config(height=10, width=40)
     listbox.place(x='11', y='82')
     update_listbox_studies()
+## Detailed Recipes Start Here ##
+tomato_beans_recipe = {
+    "Ingredients": [
+        "2 fresh medium-sized tomatoes",
+        "2-3 hot pepper (can be mixed with sweet pepper)",
+        "Cooking oil",
+        "One can of fava beans"
+    ],
+    "Instructions": [
+        "1- Cut the tomatoes and pepper into small pieces with a kitchen knife, please use it safely." ,
+        "2- Pour cooking oil in any kind of steel or aluminum pot or dish and turn up the heat",
+        "3- Put the tomato and pepper in the pot and stir them frequently",
+        "4- When the ingredients start to have a golden or yellowish color, sprinkle some salt on it, other spices can also be used.",
+        "5- After sprinkling the salt, stir the mixture for a bit then put the fava beans in the put and stir well.",
+        "6- Leave it on low heat for 5 minutes. Enjoy."
+    ]
+}
+## Detailed Recipes End Here ##
+def get_recipe():
+    recipe = opt.get()
+    if recipe == "Fool bi Ota (Tomato Beans)":
+        ingredients = tomato_beans_recipe["Ingredients"]
+        instructions = tomato_beans_recipe["Instructions"]
+        tk.messagebox.showinfo("Ingredients", f"{ingredients}")
+        tk.messagebox.showinfo("Instructions", f"{instructions}")
 def recipes():
-    print("hey")
+    global opt
+    close_all_windows()
+    top = Toplevel(gui, bg="PeachPuff")
+    top.geometry("400x350")
+    top.resizable(False, False)
+    top.title("Recipe Manager")
+    msg_label = tk.Label(top, image=recipe_image, borderwidth='3', relief='solid')
+    msg_label.place(x='45', y='10')
+    recipe_names = ["Fool bi Ota (Tomato Beans)", "Fool bi Basal(Onion Beans)"]
+    opt = StringVar(value="Fool bi Ota (Tomato Beans)")
+    recipe_drop = tk.OptionMenu(top, opt, *recipe_names)
+    recipe_get_btn = tk.Button(top, text="Confirm", command=get_recipe, bg='pink', relief='solid')
+    recipe_drop.config(bg='pink', relief='solid', width=20, height=1)
+    recipe_drop.place(x='90', y='190')
+    recipe_get_btn.place(x='150', y='230')
 ## Basic GUI
 gui = TkinterDnD.Tk()
 gui.title("Pathway")
 gui.geometry("500x300")
 gui.config(bg="PeachPuff")
 gui.resizable(False, False)
+recipe_image = PhotoImage(file='recipe.png')
 image = PhotoImage(file='Pathway.png')
 msg_label = tk.Label(gui, image=image, borderwidth='3', relief='solid')
 msg_label.place(x='50', y='10')
