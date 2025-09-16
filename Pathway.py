@@ -83,7 +83,27 @@ def save_task(variation_n, dump_list):
         json.dump(dump_list, f)
     tk.messagebox.showinfo("Tasks Saved", "The tasks have been saved successfully!")
 def load_task(variation_n):
-    print("hey")
+    global sched_list, chore_list, community_list, studies_list
+    if variation_n == "Schedule.json":
+        if os.path.exists('Schedule.json'):
+            with open('Schedule.json', 'r') as f:
+                sched_list = json.load(f)
+        update_listbox_schedule()
+    elif variation_n == "Chores.json":
+        if os.path.exists('Chores.json'):
+            with open('Chores.json', 'r') as f:
+                chore_list = json.load(f)
+        update_listbox_chores()
+    elif variation_n == "Community.json":
+        if os.path.exists('Community.json'):
+            with open('Community.json', 'r') as f:
+                community_list = json.load(f)
+            update_listbox_community()
+    elif variation_n == "Studies.json":
+        if os.path.exists('Studies.json'):
+            with open('Studies.json', 'r') as f:
+                studies_list = json.load(f)
+            update_listbox_studies()
 ## GUI Functions
 def close_all_windows():
     for window in gui.winfo_children():
