@@ -89,22 +89,34 @@ def load_task(variation_n):
         if os.path.exists('Schedule.json'):
             with open('Schedule.json', 'r') as f:
                 sched_list = json.load(f)
-        update_listbox_schedule()
+            update_listbox_schedule()
+            tk.messagebox.showinfo("Success", "The tasks have been loaded successfully!")
+        else:
+            tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
     elif variation_n == "Chores.json":
         if os.path.exists('Chores.json'):
             with open('Chores.json', 'r') as f:
                 chore_list = json.load(f)
-        update_listbox_chores()
+            update_listbox_chores()
+            tk.messagebox.showinfo("Success", "The tasks have been loaded successfully!")
+        else:
+            tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
     elif variation_n == "Community.json":
         if os.path.exists('Community.json'):
             with open('Community.json', 'r') as f:
                 community_list = json.load(f)
             update_listbox_community()
+            tk.messagebox.showinfo("Success", "The tasks have been loaded successfully!")
+        else:
+            tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
     elif variation_n == "Studies.json":
         if os.path.exists('Studies.json'):
             with open('Studies.json', 'r') as f:
                 studies_list = json.load(f)
             update_listbox_studies()
+            tk.messagebox.showinfo("Success", "The tasks have been loaded successfully!")
+        else:
+            tk.messagebox.showerror("Not Found", "The save file was not found in the program's directory.")
 ## GUI Functions
 def close_all_windows():
     for window in gui.winfo_children():
@@ -113,6 +125,7 @@ def close_all_windows():
 def sched_button():
     close_all_windows()
     global listbox, date_entry, task_entry, variation_n
+    tk.messagebox.showinfo("Instructions", "Welcome to Scheduler! To register a task you select a date and then type a task, then insert both of them using the buttons, then click confirm and it will be registered. Don't forget to load & save or you'll lose all your tasks!")
     variation_n = "Schedule.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
@@ -139,6 +152,7 @@ def sched_button():
 def chores_button():
     close_all_windows()
     global listbox, date_entry, task_entry, variation_n
+    tk.messagebox.showinfo("Instructions", "Welcome to Chores! To register a task you select a date and then type a task, then insert both of them using the buttons, then click confirm and it will be registered. Don't forget to load & save or you'll lose all your tasks!")
     variation_n = "Chores.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
@@ -165,6 +179,7 @@ def chores_button():
 def community_button():
     close_all_windows()
     global listbox, date_entry, task_entry, variation_n
+    tk.messagebox.showinfo("Instructions", "Welcome to Community Service! To register a task you select a date and then type a task, then insert both of them using the buttons, then click confirm and it will be registered. Don't forget to load & save or you'll lose all your tasks!")
     variation_n = "Community.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
@@ -191,6 +206,7 @@ def community_button():
 def studies_button():
     close_all_windows()
     global listbox, date_entry, task_entry, variation_n
+    tk.messagebox.showinfo("Instructions", "Welcome to Career & Studies! To register a task you select a date and then type a task, then insert both of them using the buttons, then click confirm and it will be registered. Don't forget to load & save or you'll lose all your tasks!")
     variation_n = "Studies.json"
     top = Toplevel(gui, bg='PeachPuff')
     top.geometry("400x350")
@@ -339,13 +355,14 @@ def get_recipe():
 def recipes():
     global opt
     close_all_windows()
+    tk.messagebox.showinfo("Instructions", "Welcome to Recipe Manager! To view a recipe's ingredients and instructions, select an option from the drop down menu, then click on the confirm button!")
     top = Toplevel(gui, bg="PeachPuff")
     top.geometry("400x350")
     top.resizable(False, False)
     top.title("Recipe Manager")
     msg_label = tk.Label(top, image=recipe_image, borderwidth='3', relief='solid')
     msg_label.place(x='45', y='10')
-    recipe_names = ["Fool bi Ota (Tomato Beans)", "Fool bi Basal(Onion Beans)", "Scrambled Eggs", "Fries and Sauce", "Roasted & Mashed Eggplant", "Molokhia", "Koshari", "Seasoned Fried Eggplant"]
+    recipe_names = ["Fool bi Ota (Tomato Beans)", "Fool bi Basal(Onion Beans)", "Scrambled Eggs", "Fries and Sauce", "Roasted & Mashed Eggplant", "Molokhia"]
     opt = StringVar(value="Fool bi Ota (Tomato Beans)")
     recipe_drop = tk.OptionMenu(top, opt, *recipe_names)
     recipe_get_btn = tk.Button(top, text="Confirm", command=get_recipe, bg='pink', relief='solid')
